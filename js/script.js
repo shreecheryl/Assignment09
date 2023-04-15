@@ -1,18 +1,11 @@
-// CREATE AN ARRAY OF EMPLOYEES
-let arrEmployees = [
-    [34123413, "Zak Ruvalcaba", 3424, "zak@vectacorp.com", "Executive"],
-    [23424665, "Sally Smith", 2344, "sally@vectacorp.com", "Administrative"],
-    [12341244, "Mark Martin", 5352, "mark@vectacorp.com", "Sales"],
-    [14545423, "Robin Banks", 7867, "robin@vectacorp.com", "Marketing"],
-    [13413453, "Sue Wedge", 1235, "sue@vectacorp.com", "QA"]
-]
+import fetchEmployees from "./modules/init.js"
 
 // GET DOM ELEMENTS
 let empTable    = document.querySelector('#employees')
 let empCount    = document.querySelector('#empCount')
 
 // BUILD THE EMPLOYEES TABLE WHEN THE PAGE LOADS
-buildGrid(arrEmployees)
+buildGrid(fetchEmployees())
 
 // DELETE EMPLOYEE
 empTable.addEventListener('click', (e) => {
@@ -28,22 +21,23 @@ empTable.addEventListener('click', (e) => {
 })
 
 // BUILD THE EMPLOYEES GRID
-function buildGrid(arrEmployees) {
+async function buildGrid(employees) {
     // REMOVE THE EXISTING SET OF ROWS BY REMOVING THE ENTIRE TBODY SECTION
     empTable.lastElementChild.remove()
     // REBUILD THE TBODY FROM SCRATCH
     let tbody = document.createElement('tbody')
     // LOOP THROUGH THE ARRAY OF EMPLOYEES
     // REBUILDING THE ROW STRUCTURE
-    for (let employee of arrEmployees) {
+    let employeesReady = await employees;
+    for (let employee of employeesReady) {
         tbody.innerHTML += 
         `
         <tr>
-            <td>${employee[0]}</td>
-            <td>${employee[1]}</td>
-            <td>${employee[2]}</td>
-            <td><a href="mailto:${employee[3]}">${employee[3]}</a></td>
-            <td>${employee[4]}</td>
+            <td>${employee.id}</td>
+            <td>${employee.name}</td>
+            <td>${employee.ext}</td>
+            <td><a href="mailto:${employee.email}">${employee.email}</a></td>
+            <td>${employee.department}</td>
             <td><button class="btn btn-sm btn-danger delete">X</button></td>
         </tr>
         `
@@ -51,5 +45,5 @@ function buildGrid(arrEmployees) {
     // BIND THE TBODY TO THE EMPLOYEE TABLE
     empTable.appendChild(tbody)
     // UPDATE EMPLOYEE COUNT
-    empCount.value = `(${arrEmployees.length})`
+    empCount.value = `(${employeesReady.length})`
 }
