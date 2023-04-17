@@ -1,4 +1,4 @@
-[
+{ "employees": [
     {   "id": 34123413, 
         "name": "Zak Ruvalcaba",
         "ext": 3424,
@@ -30,4 +30,4 @@
         "email": "sue@vectacorp.com",
         "department": "QA"
     }
-]
+]}
